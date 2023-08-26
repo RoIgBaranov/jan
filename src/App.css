@@ -1,38 +1,90 @@
-.App {
-  text-align: center;
+header, footer{
+  display: flex;
+  background-color: rgba(9, 132, 227, 1.00);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header{
+  height: 4em;
+  align-items: center;
+  position: sticky;
+    top: 0;
+    margin-bottom: 2em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+footer{
+  height: 6em;
+  align-items: center;
+  
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.logo{
+  cursor: pointer;
+  max-height: 50px;
+margin-left: 8em;
+}
+
+.headBtns>button{
+  height: 3em;
+  background-color: rgba(9, 132, 227, 1.00);
+  border: 0;
+  color: white;
+  font-size: 16px;
+  margin-left: 5em;
+  cursor: pointer;
+  border-radius: 10px;
+}
+button:hover{
+  background-color: #0c7dd1;
+}
+
+.leftFooterContent{
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  
+}
+
+.rightFooterContent{
+  display: flex;
   align-items: center;
+  margin-left: 60%;
+}
+
+.problem-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Растягиваем элементы по ширине контейнера */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ 
 }
 
-.App-link {
-  color: #61dafb;
+.problem {
+  display: flex;
+  
+ align-items: center;
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.problem-title {
+  margin: 0;
+}
+
+.problem-author, .problem-description {
+  margin-top: 5px;
+}
+
+.leftContent, .rightContent{
+  margin-left: 10em;
+}
+
+.loginForm{
+  display: flex;
+   flex-direction: column;
+    align-items: center ;
+}
+
+.loginForm > input{
+  margin-bottom: 3em;
 }

@@ -1,0 +1,11 @@
+.propose-button{
+    width:15em;
+    margin-top:1em;
+    margin-left:8em;
+    color:white; 
+    background-color:rgba(9, 132, 227, 1.00);
+    border-radius:10px;
+    cursor: pointer;
+    border:0;
+}
+
