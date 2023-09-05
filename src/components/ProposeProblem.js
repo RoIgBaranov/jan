@@ -23,6 +23,7 @@ const ProposeProblem = () => {
       <div className='rightContent' >
         <h3>Problem Preview</h3>
         <div>
+          {/* Почему дублируется текст? */}
         <BlockMath>{inputText}</BlockMath>
         </div>
         

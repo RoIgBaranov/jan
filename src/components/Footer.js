@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import icon from '../images/icon.ico'
 import paul from '../images/Paul.jpg'
-import MyContext from '../MyContext'
+import MyContext from '../Context/MyContext';
 
 const Footer = () => {
 

@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 
-const MyContext = React.createContext();
 const AuthContext = React.createContext();
 
-export const MyProvider = ({ children }) => {
-  const [currentPage, setCurrentPage] = React.useState("main");
-
-  return (
-    <MyContext.Provider value={{ currentPage, setCurrentPage }}>
-      {children}
-    </MyContext.Provider>
-  );
-};
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,4 +21,4 @@ export const AuthProvider = ({ children }) => {
     );
   };
 
-export default MyContext;
+  export default AuthContext;

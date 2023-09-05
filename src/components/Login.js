@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AuthContext from '../Context/AuthContext';
 
 const Login = () => {
+
+    const {login}  = useContext(AuthContext);
+
     return (
         <div >
-            <form className='loginForm' style={{}} onSubmit={(e) => e.preventDefault()}>
-                <h2>Log In Form</h2>
-                <label>Login</label>
-                <input type='text'></input>
-                <label>Password</label>
+            <h2>Log In Form</h2>
+            <label>Login
+                <input type='text' />
+            </label>
+            <label>Password
                 <input type='password'></input>
-                <button>Log in</button>
-            </form>
+            </label>
+            <button onClick={() => login()}>Log in</button>
         </div>
     )
 }

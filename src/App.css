@@ -88,3 +88,20 @@ button:hover{
 .loginForm > input{
   margin-bottom: 3em;
 }
+
+.signUpFormLeft {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+}
+.signUpFormRight {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.signUpForm{
+  display: flex;
+  
+}
+
+

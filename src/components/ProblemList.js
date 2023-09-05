@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import Problem from './Problem'
 import "../modelsCSS/buttons/dropdownButton.css"
 import "../modelsCSS/buttons/propose-button.css"
-import MyContext from '../MyContext'
+import MyContext from '../Context/MyContext'
 
 const ProblemList = () => {
 
