@@ -1,6 +1,7 @@
 import './App.css';
 import { AuthProvider } from './Context/AuthContext';
-import { MyProvider } from './Context/MyContext';
+import { ChangePageProvider } from './Context/ChangePageContext';
+import { ProblemProvider } from './Context/ProblemContext';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -11,11 +12,13 @@ function App() {
 
   return (
     <AuthProvider>
-      <MyProvider>
-        <Header />
-        <Main />
-        <Footer />
-      </MyProvider>
+      <ChangePageProvider>
+        <ProblemProvider>
+          <Header />
+          <Main />
+          <Footer />
+        </ProblemProvider>
+      </ChangePageProvider>
     </AuthProvider>
   );
 }

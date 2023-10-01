@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import ChangePageContext from '../Context/ChangePageContext';
+import AuthContext from '../Context/AuthContext';
+import { communities } from '../utils/constants';
 
 
 const SignUp = () => {
@@ -11,38 +14,57 @@ const SignUp = () => {
     const [password, setPassowrd] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [countries, setCountries] = useState([]);
+    const [message, setMessage] = useState('');
+
+    const {setCurrentPage} = useContext(ChangePageContext);
+    const {login, setUser}  = useContext(AuthContext);
 
 
     //Submit button for registraiton
     const handleRegistration = async () => {
         const userData = {
-            name,
-            email,
-            education,
-            scientific,
-            country,
-            password,
-            confirmPass
+            nickname: name,
+            email: email,
+            educationLevel: education,
+            communities: scientific,
+            location: country,
+            password: password
         }
         
-        console.log(userData);
-        try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-
-            if (response.ok) {
-                //TODO 
-            } else {
-                //TODO
-            }
-        } catch (error) {
-            //TODO
+        if(!localStorage.getItem('users')){
+            localStorage.setItem('users', JSON.stringify([]))
         }
+
+        const storedArray = JSON.parse(localStorage.getItem('users'))
+        if(storedArray.some(user => user.nickname === userData.nickname)){
+            setMessage('User with this login already exists')
+        }else if(password!==confirmPass){
+            setMessage('The confirmed password does not match the password')
+        }else{
+            storedArray.push(userData);
+        localStorage.setItem('users', JSON.stringify(storedArray));
+        setUser(userData);
+        login();
+        setCurrentPage('main');
+        }
+        
+        // try {
+        //     const response = await fetch(`${baseUrl}/profile/signup`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(userData)
+        //     });
+
+        //     if (response.ok) {
+        //         //TODO
+        //     } else {
+        //         //TODO
+        //     }
+        // } catch (error) {
+        //     //TODO
+        // }
 
     }
 
@@ -81,13 +103,15 @@ const SignUp = () => {
                     <input type='text' id='username' value={name} onChange={(e) => setName(e.target.value.trim())} />
                 </label>
                 <label>Email:
-                    <input type='email' id='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type='email' id='email' value={email} onChange={(e) => setEmail(e.target.value.trim())} />
                 </label>
                 <label>Highest education level:
                     <input type='text' id='education' value={education} onChange={(e) => setEducation(e.target.value)} />
                 </label>
                 <label>Scientific interests:
-                    <input type='text' id='scientific' value={scientific} onChange={(e) => setScientific(e.target.value)} />
+                    <select id='scientific' onChange={(e) => setScientific(e.target.value)}>{
+                        communities.map((item, index) => <option value={item} key={index}>{item}</option>)
+                    }</select>
                 </label>
                 <label>Location:
                     <select id='country' onChange={(e) => setCountry(e.target.value)}>{
@@ -95,12 +119,15 @@ const SignUp = () => {
                     }</select>
                 </label>
                 <label>Password:
-                    <input type='password' id='password' value={password} onChange={(e) => setPassowrd(e.target.value)} />
+                    <input type='password' id='password' value={password} onChange={(e) => setPassowrd(e.target.value.trim())} />
                 </label>
                 <label>Confirm Password:
-                    <input type='password' in='confirmPass' value={confirmPass} onChange={e => setConfirmPass(e.target.value)}/>
+                    <input type='password' in='confirmPass' value={confirmPass} onChange={e => setConfirmPass(e.target.value.trim())}/>
                 </label>
                 <button onClick={handleRegistration}>Sign Up</button>
+                {
+                 message && <div>{message}</div>
+                }
             </div>
         </div>
     )

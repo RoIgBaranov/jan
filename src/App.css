@@ -77,6 +77,9 @@ button:hover{
 
 .leftContent, .rightContent{
   margin-left: 10em;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }
 
 .loginForm{
@@ -104,4 +107,12 @@ button:hover{
   
 }
 
+.problemInfo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
+.problemInfo > div{
+  margin-left: 2em;
+}
