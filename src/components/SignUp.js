@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import ChangePageContext from '../Context/ChangePageContext';
+
 import AuthContext from '../Context/AuthContext';
-import { communities } from '../utils/constants';
+import { useNavigate } from 'react-router';
+import { getCommunities } from '../utils/getCommunities';
 
 
 const SignUp = () => {
@@ -11,14 +12,20 @@ const SignUp = () => {
     const [education, setEducation] = useState('');
     const [scientific, setScientific] = useState('');
     const [country, setCountry] = useState('');
+    const [city, setCity] = useState('');
     const [password, setPassowrd] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [countries, setCountries] = useState([]);
     const [message, setMessage] = useState('');
+    const [communities, setCommunities] = useState([]);
 
-    const {setCurrentPage} = useContext(ChangePageContext);
-    const {login, setUser}  = useContext(AuthContext);
+    const { login, setUser } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
+    useEffect(() =>{
+        getCommunities(setCommunities);
+    }, [])
 
     //Submit button for registraiton
     const handleRegistration = async () => {
@@ -27,44 +34,33 @@ const SignUp = () => {
             email: email,
             educationLevel: education,
             communities: scientific,
-            location: country,
+            location: { country, city },
             password: password
         }
-        
-        if(!localStorage.getItem('users')){
-            localStorage.setItem('users', JSON.stringify([]))
-        }
 
-        const storedArray = JSON.parse(localStorage.getItem('users'))
-        if(storedArray.some(user => user.nickname === userData.nickname)){
-            setMessage('User with this login already exists')
-        }else if(password!==confirmPass){
-            setMessage('The confirmed password does not match the password')
-        }else{
-            storedArray.push(userData);
-        localStorage.setItem('users', JSON.stringify(storedArray));
+        fetch('https://justanothernobel-cbc6bcd303f9.herokuapp.com/profile/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log(response.json());
+            })
+            .then(data => {
+                console.log('Успешный ответ:', data);
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
         setUser(userData);
         login();
-        setCurrentPage('main');
-        }
+        navigate('/problems')
         
-        // try {
-        //     const response = await fetch(`${baseUrl}/profile/signup`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(userData)
-        //     });
-
-        //     if (response.ok) {
-        //         //TODO
-        //     } else {
-        //         //TODO
-        //     }
-        // } catch (error) {
-        //     //TODO
-        // }
 
     }
 
@@ -110,23 +106,24 @@ const SignUp = () => {
                 </label>
                 <label>Scientific interests:
                     <select id='scientific' onChange={(e) => setScientific(e.target.value)}>{
-                        communities.map((item, index) => <option value={item} key={index}>{item}</option>)
+                        communities.map((item, index) => <option value={item.name} key={index}>{item.name}</option>)
                     }</select>
                 </label>
                 <label>Location:
                     <select id='country' onChange={(e) => setCountry(e.target.value)}>{
                         countries.map((item, index) => <option value={item} key={index}>{item}</option>)
                     }</select>
+                    <input type='text' id='city' placeholder='city' value={city} onChange={(e) => setCity(e.target.value)} />
                 </label>
                 <label>Password:
                     <input type='password' id='password' value={password} onChange={(e) => setPassowrd(e.target.value.trim())} />
                 </label>
                 <label>Confirm Password:
-                    <input type='password' in='confirmPass' value={confirmPass} onChange={e => setConfirmPass(e.target.value.trim())}/>
+                    <input type='password' in='confirmPass' value={confirmPass} onChange={e => setConfirmPass(e.target.value.trim())} />
                 </label>
                 <button onClick={handleRegistration}>Sign Up</button>
                 {
-                 message && <div>{message}</div>
+                    message && <div>{message}</div>
                 }
             </div>
         </div>

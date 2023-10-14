@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Community from './Community'
-import { communities } from '../utils/constants';
+import { Link } from 'react-router-dom';
+import { getCommunities } from '../utils/getCommunities';
+
 
 const Communities = () => {
 
     const [startIndex, setStartIndex] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [communities, setCommunities] = useState([]);
     const itemsPerPage = 12;
 
+    useEffect(() => {
+        getCommunities(setCommunities);
+        
+    }, [])
     const filteredCommunities = communities.filter((community) =>
-        community.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+            community.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
     const visibleItems = filteredCommunities.slice(startIndex, startIndex + itemsPerPage);
+
 
     const nextItems = () => {
         setStartIndex(prev => Math.min(prev + itemsPerPage, filteredCommunities.length - itemsPerPage));
@@ -26,11 +34,14 @@ const Communities = () => {
             <div>
                 <label> Communities:
                     <input placeholder='type community name'
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </label>
-                <button className='propose-button'>Propose new Community</button>
+                <Link to="/communities/add">
+                    <button className='propose-button'>Propose new Community</button>
+                </Link>
+
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '60%', margin: '0 auto' }}>
                 {visibleItems.map((item, index) => <Community key={index} item={item} />)}

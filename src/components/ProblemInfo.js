@@ -6,7 +6,7 @@ import AuthContext from '../Context/AuthContext';
 import ChangePageContext from '../Context/ChangePageContext';
 import Comment from './Comment';
 import { handleLocalStorage } from '../utils/handleLocalStorage';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 
@@ -110,7 +110,11 @@ const ProblemInfo = () => {
               <textarea style={{ resize: 'none' }}></textarea>
               <button>Submit</button>
               <button>Subscribe</button>
-            </div> : <button onClick={() => setCurrentPage('login')}>Log in</button>
+            </div> : 
+            <Link to='/login'>
+            <button>Log in</button>
+            </Link>
+            
           }
           {comments.map((item, index) => (
             <Comment key={index} item={item} />

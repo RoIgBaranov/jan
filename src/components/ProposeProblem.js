@@ -1,16 +1,20 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BlockMath } from 'react-katex'
-import { communities } from '../utils/constants';
 import AuthContext from '../Context/AuthContext';
 import ChangePageContext from '../Context/ChangePageContext';
+import { getCommunities } from '../utils/getCommunities';
 
 
 const ProposeProblem = () => {
   const [inputTitle, setInputTitle] = useState('')
   const [inputText, setInputText] = useState('');
+  const [communities, setCommunities] = useState([]);
   const {user} = useContext(AuthContext);
   const {setCurrentPage} = useContext(ChangePageContext);
 
+  useEffect(() =>{
+    getCommunities(setCommunities)
+}, [])
   
 const createProblem = () => {
   const newProblem = {

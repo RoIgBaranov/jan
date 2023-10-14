@@ -10,6 +10,8 @@ import AuthContext from '../Context/AuthContext';
 import ProfilePage from './ProfilePage';
 import ProblemInfo from './ProblemInfo';
 import CommunitiesList from './CommunitiesList';
+import ProposeCommunity from './ProposeCommunity';
+import CommunityInfo from './CommunityInfo';
 
 
 const Main = () => {
@@ -23,12 +25,14 @@ const Main = () => {
       <Route path="/" element={<Navigate to="/problems" />} />
       <Route path='/problems' exact element={<ProblemList />} />
       <Route path='/propose' element={isLoggedIn ? <ProposeProblem /> : <Login />} />
-      <Route path="/login" element={isLoggedIn ? <ProblemList /> : <Login />} />
+      <Route path="/login" element={isLoggedIn ? <ProblemList/> : <Login />} />
       <Route path='/signUp' element={isLoggedIn ? <ProblemList />: <SignUp />} />
       <Route path="/about" element={<About />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path='/problems/:problem' element={<ProblemInfo />} />
       <Route path="/communities" element={<CommunitiesList />} />
+      <Route path="/communities/add" element={<ProposeCommunity/>}/>
+      <Route path="/communities/:community" element={<CommunityInfo/>}/>
     </Routes>
   )
 }

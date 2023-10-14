@@ -8,14 +8,9 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
 
-  const { setCurrentPage } = useContext(ChangePageContext);
   const { isLoggedIn, logout, user } = useContext(AuthContext);
 
-  const handleLogout = () => {
-
-    setCurrentPage('main')
-    logout()
-  }
+  
 
 
   return (
@@ -34,16 +29,18 @@ const Header = () => {
 
         {isLoggedIn ?
           <div>
-            <div onClick={() => setCurrentPage('profile')}>{user.nickname}</div>
-            <button onClick={() => handleLogout()}>Log Out</button>
+            <div >{user.nickname}</div>
+            <Link to='login'>
+              <button onClick={() => logout()}>Log Out</button>
+            </Link>
           </div>
           :
           <div>
             <Link to='login'>
-              <button onClick={() => setCurrentPage('login')}>Log in</button>
+              <button >Log in</button>
             </Link>
             <Link to='/signup'>
-              <button onClick={() => setCurrentPage('signUp')}>Sign up</button>
+              <button >Sign up</button>
             </Link>
 
           </div>}
