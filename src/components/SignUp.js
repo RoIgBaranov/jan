@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../Context/AuthContext';
 import { useNavigate } from 'react-router';
 import { getCommunities } from '../utils/getCommunities';
+import CommunityDataContext from '../Context/CommunityDataContext';
 
 
 const SignUp = () => {
@@ -10,7 +11,7 @@ const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [education, setEducation] = useState('');
-    const [scientific, setScientific] = useState('');
+    const [scientific, setScientific] = useState([]);
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [password, setPassowrd] = useState('');
@@ -19,12 +20,13 @@ const SignUp = () => {
     const [message, setMessage] = useState('');
     const [communities, setCommunities] = useState([]);
 
-    const { login, setUser } = useContext(AuthContext);
+    const {communitiesData} = useContext(CommunityDataContext);
+    const { login, setUser, setAuthHeader } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
-    useEffect(() =>{
-        getCommunities(setCommunities);
+    useEffect(() => {
+        communitiesData.length !==0 ?  setCommunities(communitiesData) : getCommunities(setCommunities);
     }, [])
 
     //Submit button for registraiton
@@ -48,20 +50,21 @@ const SignUp = () => {
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
+                } else {
+                    return response.json();
                 }
-                console.log(response.json());
+
             })
-            .then(data => {
-                console.log('Успешный ответ:', data);
-            })
+            .then(data => setUser(data))
             .catch(error => {
                 console.error('Произошла ошибка:', error);
             });
-        setUser(userData);
+        const tokken = `${email}:${password}`
+        const encodedTokken = btoa(tokken)
+        const basicAuthHeader = `Basic ${encodedTokken}`
+        setAuthHeader(basicAuthHeader);
         login();
         navigate('/problems')
-        
-
     }
 
 
@@ -105,9 +108,12 @@ const SignUp = () => {
                     <input type='text' id='education' value={education} onChange={(e) => setEducation(e.target.value)} />
                 </label>
                 <label>Scientific interests:
-                    <select id='scientific' onChange={(e) => setScientific(e.target.value)}>{
-                        communities.map((item, index) => <option value={item.name} key={index}>{item.name}</option>)
-                    }</select>
+                    <select id='scientific' onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        setScientific(prevScientific => [...prevScientific, selectedValue]);
+                    }}>{
+                            communities.map((item, index) => <option value={item.name} key={index}>{item.name}</option>)
+                        }</select>
                 </label>
                 <label>Location:
                     <select id='country' onChange={(e) => setCountry(e.target.value)}>{

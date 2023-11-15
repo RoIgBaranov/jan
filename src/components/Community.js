@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { useCommunityData } from '../Context/CommunityDataContext'
+import CommunityDataContext from '../Context/CommunityDataContext'
 
 const Community = ({ item }) => {
 
-  const {setCommunityData} = useCommunityData();
+  const {setCommunityData} = useContext(CommunityDataContext);
 
   const handleClick = () => {
     setCommunityData(item);

@@ -1,6 +1,5 @@
 import './App.css';
 import { AuthProvider } from './Context/AuthContext';
-import { ChangePageProvider } from './Context/ChangePageContext';
 import { CommunityDataProvider } from './Context/CommunityDataContext';
 import { ProblemProvider } from './Context/ProblemContext';
 
@@ -13,7 +12,6 @@ function App() {
 
   return (
     <AuthProvider>
-      <ChangePageProvider>
         <CommunityDataProvider>
           <ProblemProvider>
             <Header />
@@ -21,7 +19,6 @@ function App() {
             <Footer />
           </ProblemProvider>
         </CommunityDataProvider>
-      </ChangePageProvider>
     </AuthProvider>
   );
 }

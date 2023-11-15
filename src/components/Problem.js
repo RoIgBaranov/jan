@@ -11,7 +11,7 @@ const Problem = ({ item }) => {
 
   const {  setSelectedProblem } = useContext(ProblemContext);
 
-  const timeDifference = Date.now() - item.date;
+  const timeDifference = Date.now() - new Date(item.dateCreated).getTime();
   let viewTime = dateCalc(timeDifference);
 
 
@@ -22,12 +22,12 @@ const Problem = ({ item }) => {
 
     <div className='problem'>
       <p className='problem-title' style={{ marginLeft: '11.2em', maxWidth: '20em' }}>{item.title}</p>
-      <p className='problem-author' style={{ marginLeft: '15em' }}>{item.award}$</p>
-      <p className='problem-description' style={{ marginLeft: '10em' }}>{`By ${item.author.login} ${Math.floor(viewTime.number)} ${viewTime.text} ago`}</p>
-      <Link to={item.title}>
+      <p className='problem-author' style={{ marginLeft: '15em' }}>{item.totalAward}$</p>
+      <p className='problem-description' style={{ marginLeft: '10em' }}>{`By ${item.author} ${Math.floor(viewTime.number)} ${viewTime.text}  ago`}</p>
+      <Link to={`/problems/${item.id}`}>
         <button className='problemButton' onClick={() =>setSelectedProblem(item)} style={{ marginLeft: '10em' }}>Probability</button>
       </Link>
-      <button className='problemButton' style={{ marginLeft: '3em', width: '10em', pointerEvents: 'none' }}>{item.votes + ` votes `}{item.solutions + ` solutions`}</button>
+      <button className='problemButton' style={{ marginLeft: '3em', width: '10em', pointerEvents: 'none' }}>{item.subscribers.length + ` votes `}{item.solutions.length + ` solutions`}</button>
 
     </div>
 

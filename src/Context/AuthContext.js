@@ -5,13 +5,20 @@ const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [authHeader, setAuthHeader ] = useState('')
     const [user, setUser] = useState({
-      nickname: '',
+      userId: '',
       email: '',
+      nickname: '',
+      registrationDate: '',
+      roles: [],
       educationLevel: '',
-      communities: '',
-      location: '',
-      password: ''
+      communities: [],
+      location: {},
+      avatar: '',
+      stats: {},
+      activities: {},
+      wallet: 0
     });
   
     const login = () => {
@@ -20,11 +27,12 @@ export const AuthProvider = ({ children }) => {
   
     const logout = () => {
       setUser({});
+      setAuthHeader('');
       setIsLoggedIn(false);
     };
   
     return (
-      <AuthContext.Provider value={{ isLoggedIn, user, setUser, login, logout }}>
+      <AuthContext.Provider value={{ isLoggedIn, user, authHeader, setUser, login, logout, setAuthHeader }}>
         {children}
       </AuthContext.Provider>
     );
