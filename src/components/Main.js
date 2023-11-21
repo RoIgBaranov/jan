@@ -13,11 +13,13 @@ import CommunitiesList from './CommunitiesList';
 import ProposeCommunity from './ProposeCommunity';
 import CommunityInfo from './CommunityInfo';
 import ProfileEdit from './ProfileEdit';
+import ProblemContext from '../Context/ProblemContext';
 
 
 const Main = () => {
 
   const { isLoggedIn } = useContext(AuthContext);
+  // const {setSelectedProblem} = useContext(ProblemContext)
   
 
 
@@ -34,7 +36,7 @@ const Main = () => {
       <Route path="/communities" element={<CommunitiesList />} />
       <Route path="/communities/add" element={<ProposeCommunity/>}/>
       <Route path="/communities/:community" element={<CommunityInfo/>}/>
-      <Route path='/profile/:email' element={<ProfileEdit/>}/>
+      <Route path='/profile/:email'  element={<ProfileEdit/>}/>
     </Routes>
   )
 }
